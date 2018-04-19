@@ -4,77 +4,112 @@
     ViewData["Title"] = "Details";
 }
 
+@inject UserManager<ApplicationUser> UserManager
+
 <div class="container">
-    <h2>Details</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div style="padding:20px 40px">
+                    <img class="rounded img-fluid" src="~/images/defaultAvatar.png" alt="Card image cap">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"> @Html.DisplayFor(model => model.FistName)   @Html.DisplayFor(model => model.LastName)</h5>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header card-header-success">
+                    Tools
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">  <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a></li>
+                    <li class="list-group-item">  <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a></li>
+                    <li class="list-group-item"><a asp-action="Index">Back to List</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h4>User Information</h4>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FistName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.FistName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.LastName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.MothersLastName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.MothersLastName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Curp)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Curp)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.State)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.State)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ZipCode)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.ZipCode)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.rfc)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.rfc)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Latitude)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Latitude)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Longitude)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Longitude)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
 
     <div>
-        <h4>UserInformation</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.FistName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.FistName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.MothersLastName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.MothersLastName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Curp)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Curp)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Address)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Address)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.State)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.State)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.ZipCode)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ZipCode)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.rfc)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.rfc)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Latitude)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Latitude)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Longitude)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Longitude)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+
+
     </div>
 </div>

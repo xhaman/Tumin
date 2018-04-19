@@ -57,7 +57,7 @@ namespace Tumin.Models.Seeders
 
                 if (chkUser.Succeeded)
                 {
-                    var result1 = _userManager.AddToRoleAsync(newUser, "Admin");
+                    var result1 = await _userManager.AddToRoleAsync(newUser, "Admin");
                     var admin = await _userManager.FindByEmailAsync(defaultUser);
                     var userInformation = new UserInformation()
                     {
@@ -68,8 +68,8 @@ namespace Tumin.Models.Seeders
                         Curp = "qweqweqw",
                         State = 0
                     };
-                    _context.UserInformation.Add(userInformation);
-                    _context.SaveChanges();
+                    await _context.UserInformation.AddAsync(userInformation);
+                    await _context.SaveChangesAsync();
                 }
             }
             else
