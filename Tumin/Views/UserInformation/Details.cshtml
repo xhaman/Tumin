@@ -1,0 +1,80 @@
+﻿@model Tumin.Models.UserInformation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <h2>Details</h2>
+
+    <div>
+        <h4>UserInformation</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FistName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FistName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.MothersLastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MothersLastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Curp)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Curp)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.State)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.State)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ZipCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.rfc)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.rfc)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Latitude)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Longitude)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

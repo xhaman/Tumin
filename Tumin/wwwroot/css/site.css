@@ -1,0 +1,20 @@
+﻿html {
+    position: relative;
+    min-height: 100%;
+}
+
+
+.render-body {
+    padding-top: 85px;
+    padding-bottom: 90px;
+}
+
+.footer {
+    background: #292929;
+    color: #cacaca;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index:1000;
+}
+
