@@ -25,6 +25,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">  <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a></li>
                     <li class="list-group-item">  <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a></li>
+                    <li class="list-group-item"><a asp-action="Delete"  asp-controller="Account">Delete Account</a></li>
                     <li class="list-group-item"><a asp-action="Index">Back to List</a></li>
                 </ul>
             </div>
