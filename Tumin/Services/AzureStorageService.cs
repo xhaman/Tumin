@@ -1,21 +1,35 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Tumin.Services
 {
-    public class AzureStorageService
+    public class AzureStorageService:IFileUploader
     {
+        public IConfiguration Configuration { get; }
+        public AzureStorageService()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appSettings.json");
+            Configuration = builder.Build();
 
-        public async Task<string> UploadFileToContainer(IFormFile image, string extension)
+        }
+
+        public Task<string> UploadFile(IFormFile image)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> UploadImage(IFormFile image, string extension)
         {
             try
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=encourer;AccountKey=hCgPKIyj3zMdMuW7ttkNPna0KybAXyAd3qWjG7cbJihmHGDrjNuUbX2zcAJLRo6jckyAzM09VZEw/LvtZzCbWA==;EndpointSuffix=core.windows.net");
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Configuration["ConnectionStrings:AzureConnectionString"]);
 
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference("botfiles");

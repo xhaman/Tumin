@@ -17,9 +17,11 @@ namespace Tumin.Controllers
     public class UserInformationController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IFileUploader _fileUploader;
 
-        public UserInformationController(ApplicationDbContext context)
+        public UserInformationController(ApplicationDbContext context, IFileUploader fileUploader)
         {
+            _fileUploader = fileUploader;
             _context = context;
         }
 
@@ -44,7 +46,7 @@ namespace Tumin.Controllers
                 return NotFound();
             }
 
-            var avatar = await _context.AvatarImage.FirstOrDefaultAsync(a => a.UserId == id);
+            var avatar = await _context.AvatarImage.OrderByDescending(a=>a.UploadDate).FirstOrDefaultAsync(a => a.UserId == id);
             if(avatar!=null)
                 ViewBag.avatarUrl = avatar.Url ?? "";
             else
@@ -262,7 +264,7 @@ namespace Tumin.Controllers
         public async Task<IActionResult> AvatarUpload(Guid Id, List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
-            var AzureStorage = new AzureStorageService();
+          
             // full path to file in temp location
             var filePath = Path.GetTempFileName();
 
@@ -273,7 +275,7 @@ namespace Tumin.Controllers
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await formFile.CopyToAsync(stream);
-                        var imageUrl = await AzureStorage.UploadFileToContainer(formFile, ".jpg");
+                        var imageUrl = await _fileUploader.UploadImage(formFile, ".jpg");
 
                         var imageAvatar = new AvatarImage()
                         {

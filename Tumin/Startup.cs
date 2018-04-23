@@ -39,6 +39,7 @@ namespace Tumin
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IFileUploader, AzureStorageService>();
             services.AddTransient<UserRolesSeedData>();
 
             services.AddMvc();
