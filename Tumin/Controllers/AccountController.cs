@@ -282,6 +282,35 @@ namespace Tumin.Controllers
             return View("Register",model);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult RegisterBusiness(string returnUrl = null)
+        {
+            //ViewData["action"] = "RegisterBussiness";
+            ViewData["ReturnUrl"] = returnUrl;
+            return View("Register");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterBusiness(RegisterWithUserInfo model, string returnUrl = null)
+        {
+            //ViewData["action"] = "RegisterAdmin";
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var result = await CreateUserByRole(model, "business");
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("BusinessLocation","UserInformation", new { id = model.UserInformation.UserId });
+                }
+                AddErrors(result);
+            }
+            return View("Register", model);
+        }
+
 
         public async  Task<IdentityResult> CreateUserByRole(RegisterWithUserInfo model, string Role)
         {

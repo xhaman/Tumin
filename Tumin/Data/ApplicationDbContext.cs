@@ -24,5 +24,6 @@ namespace Tumin.Data
         }
 
         public DbSet<Tumin.Models.UserInformation> UserInformation { get; set; }
+        public DbSet<Tumin.Models.AvatarImage> AvatarImage { get; set; }
     }
 }

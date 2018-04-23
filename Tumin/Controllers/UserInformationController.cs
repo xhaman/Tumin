@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Tumin.Data;
 using Tumin.Models;
+using Tumin.Services;
 
 namespace Tumin.Controllers
 {
@@ -39,6 +43,12 @@ namespace Tumin.Controllers
             {
                 return NotFound();
             }
+
+            var avatar = await _context.AvatarImage.FirstOrDefaultAsync(a => a.UserId == id);
+            if(avatar!=null)
+                ViewBag.avatarUrl = avatar.Url ?? "";
+            else
+                ViewBag.avatarUrl = "";
 
             return View(userInformation);
         }
@@ -146,9 +156,164 @@ namespace Tumin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult BusinessLocation(Guid id)
+        {
+            var userInfo = _context.UserInformation.Find(id);
+            return View(userInfo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> BusinessLocation(UserInformation userInfo)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userInfo);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserInformationExists(userInfo.UserId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Administration");
+                }
+
+
+                return RedirectToAction("AvatarUpload", new {id = userInfo.UserId});
+                //switch (userInfo.UserType)
+                //{
+                //    case (int)UserTypes.Business:
+                //        return RedirectToAction("AllUsers");
+                //    case (int)UserTypes.Artist:
+                //        return RedirectToAction("AvatarUpload");
+                //    default:
+                //        break;
+                //}
+            }
+            return View(userInfo);
+        }
+
+        [HttpPost]
+        public ActionResult SearchByLocation(float latitude, float longitude, int tipo_comercio)
+        {
+
+            List<UserInformation> BusinessLocation;
+            try
+            {
+                using (var db = _context)
+                {
+                    BusinessLocation = db.UserInformation.FromSql("SELECT * FROM UserInformations WHERE dbo.DistanceBetween({0}, {1}, Latitude, Longitude) < 5", latitude, longitude).ToList();
+                    // return BusinessLocation.AsQueryable();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            var jsonComercios = from comercio in BusinessLocation.AsEnumerable()
+                                select JsonComercioFromComercio(comercio);
+
+
+
+            return Json(jsonComercios.ToList());
+            //return View();
+        }
+
+        private JsonComercio JsonComercioFromComercio(UserInformation comercio)
+        {
+            return new JsonComercio
+            {
+                ComercioId = comercio.UserId,
+                Nombre = comercio.FistName,
+                Latitud = comercio.Latitude,
+                Longitud = comercio.Longitude,
+                Direccion = comercio.Address,
+                Url = comercio.UserId.ToString()
+
+            };
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AvatarUpload(Guid id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> AvatarUpload(Guid Id, List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+            var AzureStorage = new AzureStorageService();
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                        var imageUrl = await AzureStorage.UploadFileToContainer(formFile, ".jpg");
+
+                        var imageAvatar = new AvatarImage()
+                        {
+                            Id = Guid.NewGuid(),
+                            UserId = Id,
+                            Url = imageUrl,
+                            UploadDate = DateTime.Now,
+                            IsCurrentAvatar = true
+
+                        };
+
+                        _context.AvatarImage.Add(imageAvatar);
+                        _context.SaveChanges();
+
+                    }
+                }
+            }
+
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return RedirectToAction("Details", "UserInformation", new { id = Id });
+        }
+
+
         private bool UserInformationExists(Guid id)
         {
             return _context.UserInformation.Any(e => e.UserId == id);
         }
+    }
+
+    public class JsonComercio
+    {
+        public Guid ComercioId { get; set; }
+        public string Nombre { get; set; }
+        public double? Latitud { get; set; }
+        public double? Longitud { get; set; }
+        public string Direccion { get; set; }
+        public string Url { get; set; }
+
     }
 }

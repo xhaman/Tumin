@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "AvatarUpload";
+}
+<div class="container app-content">
+    <h2>AvatarUpload</h2>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="col-md-10">
+                <p>Upload one or more files using this form:</p>
+                <div class="input-group">
+                    <label class="input-group-btn">
+                        <span class="btn btn-primary">
+                            Browse&hellip; <input type="file" name="files" style="display: none;" multiple placeholder="Username">
+                        </span>
+                    </label>
+                    <input type="text" class="form-control" readonly>
+                </div>
+ 
+
+                <span class="help-block">
+                    Try selecting one or more files and watch the feedback
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Upload" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+
+            // We can attach the `fileselect` event to all file inputs on the page
+            $(document).on('change', ':file', function () {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            // We can watch for our custom `fileselect` event like this
+            $(document).ready(function () {
+                $(':file').on('fileselect', function (event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if (input.length) {
+                        input.val(log);
+                    } else {
+                        if (log) alert(log);
+                    }
+
+                });
+            });
+
+        });
+    </script>
+
+
+ }
