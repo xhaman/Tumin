@@ -240,7 +240,7 @@ namespace Tumin.Controllers
             if (ModelState.IsValid)
             {
 
-                var result =await createUser(model, "User");
+                var result =await CreateUserByRole(model, "User");
 
                 if (result.Succeeded)
                 {
@@ -271,7 +271,7 @@ namespace Tumin.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await createUser(model, "Admin");
+                var result = await CreateUserByRole(model, "Admin");
 
                 if (result.Succeeded)
                 {
@@ -283,15 +283,15 @@ namespace Tumin.Controllers
         }
 
 
-        public async  Task<IdentityResult> createUser(RegisterWithUserInfo model, string Role)
+        public async  Task<IdentityResult> CreateUserByRole(RegisterWithUserInfo model, string Role)
         {
             var user = new ApplicationUser
             {
                 UserName = model.IdentityRegister.Email,
                 Email = model.IdentityRegister.Email,
                 PhoneNumber = model.IdentityRegister.PhoneNumber
-
             };
+
             var result = await _userManager.CreateAsync(user, model.IdentityRegister.Password);
             if (result.Succeeded)
             {
@@ -307,7 +307,7 @@ namespace Tumin.Controllers
                 await _emailSender.SendEmailConfirmationAsync(model.IdentityRegister.Email, callbackUrl);
 
 
-                if (!User.IsInRole("Admin")) { //TODO Check this
+                if (!User.IsInRole("Admin")) { 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
                 }
@@ -520,8 +520,12 @@ namespace Tumin.Controllers
                 if (userInfo!= null)
                 {                
                     _context.UserInformation.Remove(userInfo);
+                    _context.SaveChanges();
                 }
 
+                if (User.Identity.Name == user.UserName) {
+                    await _signInManager.SignOutAsync();
+                }
 
             }
             return RedirectToAction("AllUsers", new  { id= roles.First() });

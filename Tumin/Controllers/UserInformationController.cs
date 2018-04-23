@@ -112,7 +112,7 @@ namespace Tumin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details),new {id=userInformation.UserId });
             }
             return View(userInformation);
         }

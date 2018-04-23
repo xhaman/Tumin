@@ -33,7 +33,7 @@
 </head>
 <body>
 
-  
+
     <nav class="navbar  @navbarColor  fixed-top  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
 
         <div class="container">
@@ -56,9 +56,9 @@
 
                             @if (User.IsInRole("Admin"))
                             {
-                            <a asp-action="Index" asp-controller="Administration" class="dropdown-item">
-                                <i class="material-icons">layers</i>Administration
-                            </a>
+                                <a asp-action="Index" asp-controller="Administration" class="dropdown-item">
+                                    <i class="material-icons">layers</i>Administration
+                                </a>
                             }
 
                             <a href="http://demos.creative-tim.com/material-kit/docs/2.0/getting-started/introduction.html" class="dropdown-item">
@@ -119,6 +119,9 @@
         @RenderBody()
 
     </div>
+
+
+
     <footer class="footer">
         <div class="container">
 
@@ -140,10 +143,10 @@
 
                 </ul>
             </nav>
-            </div>
+        </div>
 
     </footer>
-   
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

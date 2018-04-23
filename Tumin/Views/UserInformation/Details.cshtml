@@ -4,8 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-@inject UserManager<ApplicationUser> UserManager
-
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -23,10 +21,15 @@
                     Tools
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">  <a asp-action="Edit" asp-route-id="@Model.UserId">Edit</a></li>
-                    <li class="list-group-item">  <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a></li>
-                    <li class="list-group-item"><a asp-action="Delete"  asp-controller="Account">Delete Account</a></li>
-                    <li class="list-group-item"><a asp-action="Index">Back to List</a></li>
+                    <li class="list-group-item"> <a asp-action="Edit" asp-route-id="@Model.UserId">Edit Information</a></li>
+                    <li class="list-group-item">
+                        <a asp-area="" asp-controller="Manage" asp-action="ChangePassword" title="Manage">Change Password</a>
+                    </li>
+                    <li class="list-group-item">
+                        <button type="button" class="btn btn-danger" id="btnDeleteModal">
+                            Delete Account
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -100,17 +103,42 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     </div>
 
+</div>
 
 
-    <div>
 
-
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a asp-action="DeleteUser" asp-controller="Account"  asp-route-id="@Model.UserId" class="badge badge-danger">Delete Account</a>
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+  <script>
+      $('#btnDeleteModal').click(function () {
+          $('#deleteModal').modal('show');
+
+      });
+
+
+    </script>
+
+}
