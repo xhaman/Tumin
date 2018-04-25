@@ -44,8 +44,8 @@ Gmap.FindAddressOnMap = function (where) {
             });
             markersArray.push(marker);
             google.maps.event.addListener(marker, 'dragend', function (event) {
-                $("#Latitude").val(results[0].geometry.location.lat());
-                $("#Longitude").val(results[0].geometry.location.lng());
+                $("#Latitude").val(marker.position.lat().toFixed(7));
+                $("#Longitude").val(marker.position.lng().toFixed(7));
             });
 
         } else {
@@ -107,8 +107,8 @@ Gmap.LoadPin = function (latlong, drag) {
     });
     markersArray.push(marker);
     google.maps.event.addListener(marker, 'dragend', function (event) {
-        $("#Latitude").val(results[0].geometry.location.lat());
-        $("#Longitude").val(results[0].geometry.location.lng());
+        $("#Latitude").val(marker.position.lat().toFixed(7));
+        $("#Longitude").val(marker.position.lng().toFixed(7));
     });
 }
 
@@ -145,7 +145,7 @@ Gmap._callbackUpdateMapAddress = function (lat, long, tipo) {
     var infoWindow = new google.maps.InfoWindow({ content: "Cargando..." ,
         maxWidth: 350
     });
-    var urlb = "/UserInformations/SearchByLocation/" + lat + "/" + long + "/" + tipo;
+    var urlb = "/UserInformation/SearchByLocation/" + lat + "/" + long + "/" + tipo;
     var callbacks = 0;
     var numAllCallbacks = 0;
 

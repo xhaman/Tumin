@@ -1,9 +1,12 @@
 ﻿@model Tumin.Models.UserInformation
-
+@inject UserManager<ApplicationUser> userManager
 @{
     ViewData["Title"] = "Details";
-}
-@inject UserManager<ApplicationUser> userManager
+    
+   var userRoles = await userManager.GetRolesAsync(userManager.FindByIdAsync(Model.UserId.ToString()).Result);
+  
+};
+
 
 <div class="container">
     <div class="row">
@@ -11,13 +14,13 @@
 
             <div class="card text-center">
                 <div style="padding:20px 40px">
-                @if (ViewBag.avatarUrl != "")
-                {
-                <img class="rounded img-fluid" src="@ViewBag.avatarUrl" alt="Card image cap">}
-                else
-                {
-                <img class="rounded img-fluid" src="~/images/defaultAvatar.png" alt="Card image cap">
-                }
+                    @if (ViewBag.avatarUrl != "")
+                    {
+                        <img class="rounded img-fluid" src="@ViewBag.avatarUrl" alt="Card image cap">}
+                    else
+                    {
+                        <img class="rounded img-fluid" src="~/images/defaultAvatar.png" alt="Card image cap">
+                    }
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"> @Html.DisplayFor(model => model.FistName)   @Html.DisplayFor(model => model.LastName)</h5>
@@ -35,6 +38,8 @@
                     <li class="list-group-item">
                         <a asp-area="" asp-controller="Manage" asp-action="ChangePassword" title="Manage">Change Password</a>
                     </li>
+                    <li class="list-group-item"> <a asp-action="AvatarUpload" asp-route-id="@Model.UserId">Change Profile Picture</a></li>
+                    <li class="list-group-item"> <a asp-action="EditBusinessLocation" asp-route-id="@Model.UserId">Change Business Location</a></li>
                     <li class="list-group-item">
                         <button type="button" class="btn btn-danger" id="btnDeleteModal">
                             Delete Account
@@ -46,7 +51,8 @@
 
 
         <div class="col-md-9">
-            @if( userManager.IsInRoleAsync(userManager.FindByIdAsync(Model.UserId.ToString()).Result, "business").Result) {
+            @if (userRoles.Contains("business") )
+            {
 
                 <div class="card">
                     <div class="card-body">

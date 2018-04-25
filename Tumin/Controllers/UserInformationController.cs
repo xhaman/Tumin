@@ -212,6 +212,56 @@ namespace Tumin.Controllers
             return View(userInfo);
         }
 
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult EditBusinessLocation(Guid id)
+        {
+            var userInfo = _context.UserInformation.Find(id);
+            return View("BusinessLocation", userInfo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> EditBusinessLocation(UserInformation userInfo)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userInfo);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserInformationExists(userInfo.UserId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Administration");
+                }
+                return RedirectToAction("Details", new { id = userInfo.UserId });
+            }
+            return View("BusinessLocation", userInfo);
+        }
+
+        public ActionResult LocationSearch()
+        {
+            return View();
+        }
+
+
         [HttpPost]
         public ActionResult SearchByLocation(float latitude, float longitude, int tipo_comercio)
         {
@@ -221,7 +271,7 @@ namespace Tumin.Controllers
             {
                 using (var db = _context)
                 {
-                    BusinessLocation = db.UserInformation.FromSql("SELECT * FROM UserInformations WHERE dbo.DistanceBetween({0}, {1}, Latitude, Longitude) < 5", latitude, longitude).ToList();
+                    BusinessLocation = db.UserInformation.FromSql("SELECT * FROM UserInformation WHERE dbo.DistanceBetween({0}, {1}, Latitude, Longitude) < 5", latitude, longitude).ToList();
                     // return BusinessLocation.AsQueryable();
                 }
             }
@@ -229,12 +279,10 @@ namespace Tumin.Controllers
             {
                 throw;
             }
-            var jsonComercios = from comercio in BusinessLocation.AsEnumerable()
-                                select JsonComercioFromComercio(comercio);
+            var jsonBusiness = from business in BusinessLocation.AsEnumerable()
+                                select JsonComercioFromComercio(business);
 
-
-
-            return Json(jsonComercios.ToList());
+            return Json(jsonBusiness.ToList());
             //return View();
         }
 

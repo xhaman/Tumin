@@ -51,9 +51,9 @@ namespace Tumin.Services
 
                 return imageUrl;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+               
                 return null;
             }
         }

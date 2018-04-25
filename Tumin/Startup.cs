@@ -75,6 +75,9 @@ namespace Tumin
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "SearchLocation",
+                    template: "{controller=UserInformation}/{action=SearchByLocation}/{latitude}/{longitude}/{tipo_comercio}");
             });
 
             seeder.SeedUsersRoles().Wait();
