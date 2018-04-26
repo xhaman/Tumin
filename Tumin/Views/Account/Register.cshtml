@@ -1,6 +1,8 @@
 ﻿@model RegisterWithUserInfo
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["Register"].Value;
 }
 
 <div class="container">
@@ -9,110 +11,110 @@
     <div class="row">
         <div class="col-md-12">
             <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-           
-                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div asp-validation-summary="All" class="text-danger"></div>
 
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group label-floating">
-                                <label asp-for="IdentityRegister.Email" class="control-label"></label>
-                                <input asp-for="IdentityRegister.Email" class="form-control" />
-                                <span asp-validation-for="IdentityRegister.Email" class="text-danger"></span>
-                            </div>
-
-                        </div><div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group label-floating">
-                                <label asp-for="UserInformation.Curp" class="control-label"></label>
-                                <input asp-for="UserInformation.Curp" class="form-control" />
-                                <span asp-validation-for="UserInformation.Curp" class="text-danger"></span>
-                            </div>
-
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group label-floating">
+                            <label asp-for="IdentityRegister.Email" class="control-label"></label>
+                            <input asp-for="IdentityRegister.Email" class="form-control" />
+                            <span asp-validation-for="IdentityRegister.Email" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group  label-floating">
-                                <label asp-for="IdentityRegister.Password" class="control-label"></label>
-                                <input asp-for="IdentityRegister.Password" class="form-control" />
-                                <span asp-validation-for="IdentityRegister.Password" class="text-danger"></span>
-                            </div>
 
-                        </div><div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group  label-floating">
-                                <label asp-for="IdentityRegister.ConfirmPassword" class="control-label"></label>
-                                <input asp-for="IdentityRegister.ConfirmPassword" class="form-control" />
-                                <span asp-validation-for="IdentityRegister.ConfirmPassword" class="text-danger"></span>
-                            </div>
-
+                    </div><div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="form-group label-floating">
+                            <label asp-for="UserInformation.Curp" class="control-label"></label>
+                            <input asp-for="UserInformation.Curp" class="form-control" />
+                            <span asp-validation-for="UserInformation.Curp" class="text-danger"></span>
                         </div>
+
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group  label-floating">
-                                <label asp-for="UserInformation.FistName" class="control-label"></label>
-                                <input asp-for="UserInformation.FistName" class="form-control" />
-                                <span asp-validation-for="UserInformation.FistName" class="text-danger"></span>
-                            </div>
-
-                        </div><div class="col-md-2"></div>
-                        <div class="col-md-4">
-
-                            <div class="form-group  label-floating">
-                                <label asp-for="UserInformation.LastName" class="control-label"></label>
-                                <input asp-for="UserInformation.LastName" class="form-control" />
-                                <span asp-validation-for="UserInformation.LastName" class="text-danger"></span>
-                            </div>
-
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group  label-floating">
+                            <label asp-for="IdentityRegister.Password" class="control-label"></label>
+                            <input asp-for="IdentityRegister.Password" class="form-control" />
+                            <span asp-validation-for="IdentityRegister.Password" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
 
-                            <div class="form-group  label-floating">
-                                <label asp-for="UserInformation.MothersLastName" class="control-label"></label>
-                                <input asp-for="UserInformation.MothersLastName" class="form-control" />
-                                <span asp-validation-for="UserInformation.MothersLastName" class="text-danger"></span>
-                            </div>
-
-                        </div><div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group  label-floating">
-                                <label asp-for="IdentityRegister.PhoneNumber" class="control-label"></label>
-                                <input asp-for="IdentityRegister.PhoneNumber" class="form-control" />
-                                <span asp-validation-for="IdentityRegister.PhoneNumber" class="text-danger"></span>
-                            </div>
-
+                    </div><div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="form-group  label-floating">
+                            <label asp-for="IdentityRegister.ConfirmPassword" class="control-label"></label>
+                            <input asp-for="IdentityRegister.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="IdentityRegister.ConfirmPassword" class="text-danger"></span>
                         </div>
+
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group  label-floating">
-                                <label asp-for="UserInformation.ZipCode" class="control-label"></label>
-                                <input asp-for="UserInformation.ZipCode" class="form-control" />
-                                <span asp-validation-for="UserInformation.ZipCode" class="text-danger"></span>
-                            </div>
-
-                        </div><div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group  label-floating">
-                                <label asp-for="UserInformation.Address" class="control-label"></label>
-                                <input asp-for="UserInformation.Address" class="form-control" />
-                                <span asp-validation-for="UserInformation.Address" class="text-danger"></span>
-                            </div>
-
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group  label-floating">
+                            <label asp-for="UserInformation.FistName" class="control-label"></label>
+                            <input asp-for="UserInformation.FistName" class="form-control" />
+                            <span asp-validation-for="UserInformation.FistName" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-success">Registrar</button>
+                    </div><div class="col-md-2"></div>
+                    <div class="col-md-4">
+
+                        <div class="form-group  label-floating">
+                            <label asp-for="UserInformation.LastName" class="control-label"></label>
+                            <input asp-for="UserInformation.LastName" class="form-control" />
+                            <span asp-validation-for="UserInformation.LastName" class="text-danger"></span>
+                        </div>
+
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <div class="form-group  label-floating">
+                            <label asp-for="UserInformation.MothersLastName" class="control-label"></label>
+                            <input asp-for="UserInformation.MothersLastName" class="form-control" />
+                            <span asp-validation-for="UserInformation.MothersLastName" class="text-danger"></span>
+                        </div>
+
+                    </div><div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="form-group  label-floating">
+                            <label asp-for="IdentityRegister.PhoneNumber" class="control-label"></label>
+                            <input asp-for="IdentityRegister.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="IdentityRegister.PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group  label-floating">
+                            <label asp-for="UserInformation.ZipCode" class="control-label"></label>
+                            <input asp-for="UserInformation.ZipCode" class="form-control" />
+                            <span asp-validation-for="UserInformation.ZipCode" class="text-danger"></span>
+                        </div>
+
+                    </div><div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="form-group  label-floating">
+                            <label asp-for="UserInformation.Address" class="control-label"></label>
+                            <input asp-for="UserInformation.Address" class="form-control" />
+                            <span asp-validation-for="UserInformation.Address" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                </div>
             </form>
         </div>
-        </div>
     </div>
+</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
