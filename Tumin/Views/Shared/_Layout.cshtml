@@ -1,4 +1,5 @@
-﻿@{ 
+﻿@inject IViewLocalizer Localizer
+@{
     string navbarColor = "navbar-transparent navbar-color-on-scroll";
     if (Context.Request.Path != "/")
     {
@@ -11,7 +12,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <title>@ViewData["Title"] - Tumin</title>
+    <title>@ViewData["Title"] -  @Localizer["Title"].Value</title>
 
     <environment include="Development">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
